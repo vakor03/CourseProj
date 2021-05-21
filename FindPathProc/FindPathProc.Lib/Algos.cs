@@ -7,7 +7,8 @@ namespace FindPathProc.Lib
     public class Algos
     {
         private double[,] _smMatrix;
-        private int _vertsCount;
+        public double[,] directDistance {private get; set; }
+        int _vertsCount;
 
         public Algos(double[,] smMatrix)
         {
@@ -17,68 +18,169 @@ namespace FindPathProc.Lib
 
         public double Deikstra(int startId, int finishId, ref List<int> path)
         {
-            // pathToVerts - Найближчий шлях з початкової воршини до усіх інших
-            // Спочатку шлях до всіх вершин, крім початкової - inf
-            double[] pathToVerts = new double[_vertsCount];
-            List<int>[] shortestPath = new List<int>[_vertsCount];
-            bool[] usedVerts = new bool[_vertsCount];
+            PriorityQueue<int> frontier = new PriorityQueue<int>();
+            frontier.AddElement(startId, 0);
+            int[] cameFrom = new int[_vertsCount];
+            double[] costSoFar = new double[_vertsCount];
+            cameFrom[startId] = -1;
             for (int i = 0; i < _vertsCount; i++)
             {
                 if (i == startId)
                 {
-                    pathToVerts[i] = 0;
+                    costSoFar[i] = 0;
+                }
+                else
+                {
+                    costSoFar[i] = double.MaxValue;
+                }
+            }
+
+            while (!frontier.IsEmpty())
+            {
+                int currentId = frontier.Dequeue();
+
+                if (currentId == finishId)
+                {
+                    path = new List<int>();
+                    currentId = finishId;
+                    while (currentId!=-1)
+                    {
+                        path.Add(currentId);
+                        currentId = cameFrom[currentId];
+                    }
+                    path.Reverse();
+                    return costSoFar[finishId];
+                }
+
+
+                for (int j = 0; j < _vertsCount; j++)
+                {
+                    if (_smMatrix[currentId, j] != 0)
+                    {
+                        double newCost = costSoFar[currentId] + _smMatrix[currentId, j];
+                        if (newCost < costSoFar[j])
+                        {
+                            costSoFar[j] = newCost;
+                            double priority = newCost;
+                            frontier.AddElement(j, priority);
+                            cameFrom[j] = currentId;
+                        }
+                    }
+                }
+            }
+
+            return costSoFar[finishId];
+        }
+
+
+        public double BellmanFord(int startId, int finishId, ref List<int> path)
+        {
+            double[] distance = new double[_vertsCount];
+            List<int>[] shortestPath = new List<int>[_vertsCount];
+
+            for (int i = 0; i < _vertsCount; i++)
+            {
+                if (i == startId)
+                {
+                    distance[i] = 0;
                     shortestPath[i] = new List<int> {i};
                 }
                 else
                 {
-                    pathToVerts[i] = double.MaxValue;
+                    distance[i] = double.MaxValue;
                 }
             }
 
-            int currNode = startId;
-            while (usedVerts.Count(a => a == false) != 0)
+            for (int i = 0; i < _vertsCount; i++)
             {
-                for (int i = 0; i < _vertsCount; i++)
+                for (int j = 0; j < _vertsCount; j++)
                 {
-                    if (!usedVerts[i] && _smMatrix[currNode, i] != 0)
+                    for (int k = 0; k < _vertsCount; k++)
                     {
-                        if (pathToVerts[i] > (pathToVerts[currNode] + _smMatrix[currNode, i]))
+                        if (_smMatrix[j, k] != 0)
                         {
-                            pathToVerts[i] = (pathToVerts[currNode] + _smMatrix[currNode, i]);
-                            shortestPath[i] = new List<int>(shortestPath[currNode]) {i};
+                            if (distance[j] != double.MaxValue && distance[k] > distance[j] + _smMatrix[j, k])
+                            {
+                                distance[k] = distance[j] + _smMatrix[j, k];
+                                shortestPath[k] = new List<int>(shortestPath[j]) {k};
+                            }
                         }
                     }
-
-                    usedVerts[currNode] = true;
                 }
-                currNode = FindNode(pathToVerts, usedVerts);
+            }
+
+            for (int i = 0; i < _vertsCount; i++)
+            {
+                for (int j = 0; j < _vertsCount; j++)
+                {
+                    if (_smMatrix[i, j] != 0)
+                    {
+                        if (distance[i] != double.MaxValue && distance[j] > distance[i] + _smMatrix[i, j])
+                        {
+                            Console.WriteLine("Граф містить цикли від'ємної ваги.");
+                        }
+                    }
+                }
             }
 
             path = shortestPath[finishId];
-            return pathToVerts[finishId];
+            return distance[finishId];
         }
 
-        private static int FindNode(double[] pathToVerts, bool[] usedVerts)
+        public double AStar(int startId, int finishId, ref List<int> path)
         {
-            double minPath = Double.MaxValue;
-            int minPathId = -1;
-            for (int i = 0; i < pathToVerts.Length; i++)
+            PriorityQueue<int> frontier = new PriorityQueue<int>();
+            frontier.AddElement(startId, 0);
+            int[] cameFrom = new int[_vertsCount];
+            double[] costSoFar = new double[_vertsCount];
+            cameFrom[startId] = -1;
+            for (int i = 0; i < _vertsCount; i++)
             {
-                if (pathToVerts[i] < minPath && !usedVerts[i])
+                if (i == startId)
                 {
-                    minPath = pathToVerts[i];
-                    minPathId = i;
+                    costSoFar[i] = 0;
+                }
+                else
+                {
+                    costSoFar[i] = double.MaxValue;
                 }
             }
-            return minPathId;
-        }
 
-        public void BellmanFord()
-        {
-        }
+            while (!frontier.IsEmpty())
+            {
+                int currentId = frontier.Dequeue();
 
-        public void AStar()
-        {
+                if (currentId == finishId)
+                {
+                    path = new List<int>();
+                    currentId = finishId;
+                    while (currentId!=-1)
+                    {
+                        path.Add(currentId);
+                        currentId = cameFrom[currentId];
+                    }
+                    path.Reverse();
+                    return costSoFar[finishId];
+                }
+
+
+                for (int j = 0; j < _vertsCount; j++)
+                {
+                    if (_smMatrix[currentId, j] != 0)
+                    {
+                        double newCost = costSoFar[currentId] + _smMatrix[currentId, j];
+                        if (newCost < costSoFar[j])
+                        {
+                            costSoFar[j] = newCost;
+                            double priority = newCost + directDistance[j, finishId];
+                            frontier.AddElement(j, priority);
+                            cameFrom[j] = currentId;
+                        }
+                    }
+                }
+            }
+
+            return costSoFar[finishId];
         }
     }
 }
