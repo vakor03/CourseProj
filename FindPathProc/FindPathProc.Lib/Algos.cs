@@ -6,24 +6,21 @@ namespace FindPathProc.Lib
 {
     public class Algos
     {
-        private double[,] _smMatrix;
-        public double[,] directDistance {private get; set; }
-        int _vertsCount;
-
-        public Algos(double[,] smMatrix)
+        private CustomGraph _graph;
+        
+        public Algos(CustomGraph graph)
         {
-            _smMatrix = smMatrix;
-            _vertsCount = _smMatrix.GetLength(0);
+            _graph = graph;
         }
 
         public double Deikstra(int startId, int finishId, ref List<int> path)
         {
             PriorityQueue<int> frontier = new PriorityQueue<int>();
             frontier.AddElement(startId, 0);
-            int[] cameFrom = new int[_vertsCount];
-            double[] costSoFar = new double[_vertsCount];
+            int[] cameFrom = new int[_graph.vertsCount];
+            double[] costSoFar = new double[_graph.vertsCount];
             cameFrom[startId] = -1;
-            for (int i = 0; i < _vertsCount; i++)
+            for (int i = 0; i < _graph.vertsCount; i++)
             {
                 if (i == startId)
                 {
@@ -53,11 +50,11 @@ namespace FindPathProc.Lib
                 }
 
 
-                for (int j = 0; j < _vertsCount; j++)
+                for (int j = 0; j < _graph.vertsCount; j++)
                 {
-                    if (_smMatrix[currentId, j] != 0)
+                    if (_graph.matrixSm[currentId, j] != 0)
                     {
-                        double newCost = costSoFar[currentId] + _smMatrix[currentId, j];
+                        double newCost = costSoFar[currentId] + _graph.matrixSm[currentId, j];
                         if (newCost < costSoFar[j])
                         {
                             costSoFar[j] = newCost;
@@ -75,10 +72,10 @@ namespace FindPathProc.Lib
 
         public double BellmanFord(int startId, int finishId, ref List<int> path)
         {
-            double[] distance = new double[_vertsCount];
-            List<int>[] shortestPath = new List<int>[_vertsCount];
+            double[] distance = new double[_graph.vertsCount];
+            List<int>[] shortestPath = new List<int>[_graph.vertsCount];
 
-            for (int i = 0; i < _vertsCount; i++)
+            for (int i = 0; i < _graph.vertsCount; i++)
             {
                 if (i == startId)
                 {
@@ -91,17 +88,17 @@ namespace FindPathProc.Lib
                 }
             }
 
-            for (int i = 0; i < _vertsCount; i++)
+            for (int i = 0; i < _graph.vertsCount; i++)
             {
-                for (int j = 0; j < _vertsCount; j++)
+                for (int j = 0; j < _graph.vertsCount; j++)
                 {
-                    for (int k = 0; k < _vertsCount; k++)
+                    for (int k = 0; k < _graph.vertsCount; k++)
                     {
-                        if (_smMatrix[j, k] != 0)
+                        if (_graph.matrixSm[j, k] != 0)
                         {
-                            if (distance[j] != double.MaxValue && distance[k] > distance[j] + _smMatrix[j, k])
+                            if (distance[j] != double.MaxValue && distance[k] > distance[j] + _graph.matrixSm[j, k])
                             {
-                                distance[k] = distance[j] + _smMatrix[j, k];
+                                distance[k] = distance[j] + _graph.matrixSm[j, k];
                                 shortestPath[k] = new List<int>(shortestPath[j]) {k};
                             }
                         }
@@ -109,13 +106,13 @@ namespace FindPathProc.Lib
                 }
             }
 
-            for (int i = 0; i < _vertsCount; i++)
+            for (int i = 0; i < _graph.vertsCount; i++)
             {
-                for (int j = 0; j < _vertsCount; j++)
+                for (int j = 0; j < _graph.vertsCount; j++)
                 {
-                    if (_smMatrix[i, j] != 0)
+                    if (_graph.matrixSm[i, j] != 0)
                     {
-                        if (distance[i] != double.MaxValue && distance[j] > distance[i] + _smMatrix[i, j])
+                        if (distance[i] != double.MaxValue && distance[j] > distance[i] + _graph.matrixSm[i, j])
                         {
                             Console.WriteLine("Граф містить цикли від'ємної ваги.");
                         }
@@ -131,10 +128,10 @@ namespace FindPathProc.Lib
         {
             PriorityQueue<int> frontier = new PriorityQueue<int>();
             frontier.AddElement(startId, 0);
-            int[] cameFrom = new int[_vertsCount];
-            double[] costSoFar = new double[_vertsCount];
+            int[] cameFrom = new int[_graph.vertsCount];
+            double[] costSoFar = new double[_graph.vertsCount];
             cameFrom[startId] = -1;
-            for (int i = 0; i < _vertsCount; i++)
+            for (int i = 0; i < _graph.vertsCount; i++)
             {
                 if (i == startId)
                 {
@@ -164,15 +161,15 @@ namespace FindPathProc.Lib
                 }
 
 
-                for (int j = 0; j < _vertsCount; j++)
+                for (int j = 0; j < _graph.vertsCount; j++)
                 {
-                    if (_smMatrix[currentId, j] != 0)
+                    if (_graph.matrixSm[currentId, j] != 0)
                     {
-                        double newCost = costSoFar[currentId] + _smMatrix[currentId, j];
+                        double newCost = costSoFar[currentId] + _graph.matrixSm[currentId, j];
                         if (newCost < costSoFar[j])
                         {
                             costSoFar[j] = newCost;
-                            double priority = newCost + directDistance[j, finishId];
+                            double priority = newCost + _graph.directDist[j, finishId];
                             frontier.AddElement(j, priority);
                             cameFrom[j] = currentId;
                         }
