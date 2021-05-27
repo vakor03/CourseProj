@@ -4,15 +4,6 @@
     {
         private Node<T> _root;
 
-        public PriorityQueue()
-        {
-        }
-
-        public PriorityQueue(T element, double priority)
-        {
-            _root = new Node<T>(null, element, priority);
-        }
-
         public void AddElement(T element, double priority)
         {
             if (_root == null)
@@ -21,7 +12,7 @@
             }
             else
             {
-                Node<T>.AddElement(_root, element, priority);
+                Node<T>.AddNode(_root, element, priority);
             }
         }
 
@@ -33,6 +24,22 @@
         }
 
 
+        public T Dequeue()
+        {
+            Node<T> targetNode = Dequeue(_root);
+            T value = targetNode.Value;
+            if (targetNode == _root)
+            {
+                _root = _root.RChild;
+            }
+            else
+            {
+                targetNode.DeleteNode();
+            }
+
+            return value;
+        }
+
         private Node<T> Dequeue(Node<T> currentNode)
         {
             if (currentNode.LChild != null)
@@ -41,30 +48,6 @@
             }
 
             return currentNode;
-        }
-
-        public T Dequeue()
-        {
-            Node<T> targetNode = Dequeue(_root);
-            T value = targetNode.Value;
-            if (targetNode == _root)
-            {
-                if (_root.RChild != null)
-                {
-                    _root = _root.RChild;
-                }
-                else
-                {
-                    _root = null;
-                }
-                
-            }
-            else
-            {
-                targetNode.DeleteNode();
-            }
-
-            return value;
         }
     }
 }
