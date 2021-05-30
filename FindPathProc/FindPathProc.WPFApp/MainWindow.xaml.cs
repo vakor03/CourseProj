@@ -5,6 +5,9 @@
     /// </summary>
     public partial class MainWindow
     {
+        /// <summary>
+        /// Constructor, initialize components
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();

@@ -5,22 +5,63 @@ using FindPathProc.Lib;
 
 namespace FindPathProc.WPFApp
 {
+    /// <summary>
+    /// Interaction logic for StartPage.xaml
+    /// </summary>
     public partial class StartPage
     {
+        /// <summary>
+        /// Weight matrix of graph
+        /// </summary>
         private int[,] _weightMatrix;
+
+        /// <summary>
+        /// Distance matrix of graph
+        /// </summary>
         private int[,] _distMatrix;
+
+        /// <summary>
+        /// Matrix with UIs, created to display weight matrix
+        /// </summary>
         private UIElement[,] _uiWMatrix;
+
+        /// <summary>
+        /// Matrix with UIs, created to display distance matrix
+        /// </summary>
         private UIElement[,] _uiDistMatrix;
+
+        /// <summary>
+        /// Id of start vertex
+        /// </summary>
         private int _startId;
+
+        /// <summary>
+        /// Id of destination vertex
+        /// </summary>
         private int _destId;
+
+        /// <summary>
+        /// Number of vertices in graph
+        /// </summary>
         private int _vertsCount;
+
+        /// <summary>
+        /// Max count of vertices
+        /// </summary>
         private static int maxCount = 12;
 
+        /// <summary>
+        /// Constructor, Initializes UI 
+        /// </summary>
         public StartPage()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initialize matrixes with defined vertices number
+        /// </summary>
+        /// <param name="vertsCount">number of vertices in graph</param>
         private void InitMatrix(int vertsCount)
         {
             _weightMatrix = new int[vertsCount, vertsCount];
@@ -30,6 +71,11 @@ namespace FindPathProc.WPFApp
             _vertsCount = vertsCount;
         }
 
+        /// <summary>
+        /// Initialize UI part of weight matrix for 1 el
+        /// </summary>
+        /// <param name="i">row Id</param>
+        /// <param name="j">column Id</param>
         private void InitWUi(int i, int j)
         {
             if (j != i)
@@ -66,6 +112,11 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Initialize UI part of distance matrix for 1 el
+        /// </summary>
+        /// <param name="i">row Id</param>
+        /// <param name="j">column Id</param>
         private void InitDistUi(int i, int j)
         {
             if (j > i)
@@ -102,6 +153,9 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Changes distance matrix element
+        /// </summary>
         private void DistMatrix_Changed(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = (TextBox) e.Source;
@@ -117,6 +171,9 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Changes vertices count, creates appropriate matrixes for graph
+        /// </summary>
         private void Count_Changed(object sender, TextChangedEventArgs e)
         {
             try
@@ -159,6 +216,9 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Changes weight matrix element
+        /// </summary>
         private void WMatrix_Changed(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = (TextBox) e.Source;
@@ -169,6 +229,9 @@ namespace FindPathProc.WPFApp
             _weightMatrix[i, j] = edge;
         }
 
+        /// <summary>
+        /// Switches to next page
+        /// </summary>
         private void NextPage_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -197,20 +260,30 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Changes start Id of path
+        /// </summary>
         private void StartId_Changed(object sender, TextChangedEventArgs e)
         {
             int.TryParse(((TextBox) e.Source).Text, out _startId);
         }
 
+        /// <summary>
+        /// Changes destination Id of path
+        /// </summary>
         private void FinishId_Changed(object sender, TextChangedEventArgs e)
         {
             int.TryParse(((TextBox) e.Source).Text, out _destId);
         }
 
+        /// <summary>
+        /// Generates weight matrix 
+        /// </summary>
         private void GenerateWeight_Click(object sender, RoutedEventArgs e)
         {
-            int maxRInt = 10;
             Random random = new Random();
+            int maxRInt = 10;
+
             for (int i = 0; i < _vertsCount; i++)
             {
                 for (int j = i + 1; j < _vertsCount; j++)
@@ -243,6 +316,9 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Generates distance matrix
+        /// </summary>
         private void GenerateDist_Click(object sender, RoutedEventArgs e)
         {
             int maxNumber = 10;

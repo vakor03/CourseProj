@@ -1,19 +1,43 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using FindPathProc.Lib;
 using Microsoft.Msagl.Drawing;
 
 namespace FindPathProc.WPFApp
 {
+    /// <summary>
+    /// Interaction logic for PrintGraph.xaml
+    /// </summary>
     public partial class PrintGraph
     {
+        /// <summary>
+        /// Initial graph
+        /// </summary>
         private readonly CustomGraph _customGraph;
+
+        /// <summary>
+        /// Id of start vertex
+        /// </summary>
         private readonly int _startId;
+
+        /// <summary>
+        /// Id of destination vertex
+        /// </summary>
         private readonly int _destId;
 
+        /// <summary>
+        /// results of path finding algorithms
+        /// </summary>
         private readonly (string name, string timeWorking, string distance, List<int> path)[] _results =
             new (string, string, string, List<int>)[3];
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="customGraph">Initial CustomGraph</param>
+        /// <param name="startId">Id of start vertex in path</param>
+        /// <param name="destId">Id of destination vertex in path</param>
         public PrintGraph(CustomGraph customGraph, int startId, int destId)
         {
             InitializeComponent();
@@ -23,6 +47,9 @@ namespace FindPathProc.WPFApp
             _destId = destId;
         }
 
+        /// <summary>
+        /// Prints graph, algorithms results
+        /// </summary>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             PrintMainGraph(_customGraph);
@@ -55,6 +82,10 @@ namespace FindPathProc.WPFApp
             }
         }
 
+        /// <summary>
+        /// Prints users graph
+        /// </summary>
+        /// <param name="customGraph">initial graph</param>
         private void PrintMainGraph(CustomGraph customGraph)
         {
             Graph graph = new Graph();
@@ -82,6 +113,10 @@ namespace FindPathProc.WPFApp
             FinishLabel.Text = "Destination Id: " + _destId;
         }
 
+        /// <summary>
+        /// Prints results of Bellman-Ford algorithm 
+        /// </summary>
+        /// <param name="algo">path finding algorithms with initial graph</param>
         private void BellmanFordGraph(Algo algo)
         {
             Graph graph = new Graph();
@@ -114,6 +149,10 @@ namespace FindPathProc.WPFApp
             _results[0] = ("Bellman-Ford", BellmanTime.Text, BellmanDist.Text, path);
         }
 
+        /// <summary>
+        /// Prints results of Dijkstra algorithm 
+        /// </summary>
+        /// <param name="algo">path finding algorithms with initial graph</param>
         private void DijkstraGraph(Algo algo)
         {
             Graph graph = new Graph();
@@ -133,6 +172,10 @@ namespace FindPathProc.WPFApp
             _results[1] = ("Dijkstra", DijkstraTime.Text, DijkstraDist.Text, path);
         }
 
+        /// <summary>
+        /// Prints results of A* algorithm 
+        /// </summary>
+        /// <param name="algo">path finding algorithms with initial graph</param>
         private void AStarGraph(Algo algo)
         {
             Graph graph = new Graph();
@@ -153,10 +196,27 @@ namespace FindPathProc.WPFApp
             _results[2] = ("A*", AStarTime.Text, AStarDist.Text, path);
         }
 
+        /// <summary>
+        /// Prints results to file 
+        /// </summary>
         private void WriteToFile_Click(object sender, RoutedEventArgs e)
         {
+            if (!Directory.Exists(PathToDir.Text))
+            {
+                MessageBox.Show("Directory doesn't exist. results will be added to dir \"Results\".",
+                    "Program message");
+            }
+            else
+            {
+                if (PathToDir.Text[PathToDir.Text.Length - 1] != '\\' ||
+                    PathToDir.Text[PathToDir.Text.Length - 1] != '/')
+                {
+                    PathToDir.Text += '\\';
+                }
+            }
+
             FileManager fileManager =
-                new FileManager(_customGraph, _startId, _destId, _results, @"../../../../Results/");
+                new FileManager(_customGraph, _startId, _destId, _results, PathToDir.Text);
             fileManager.Write();
             MessageBox.Show("Successful!", "Program message");
         }

@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindPathProc.Lib", "FindPat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindPathProc.WPFApp", "FindPathProc.WPFApp\FindPathProc.WPFApp.csproj", "{2582A2C3-AE0A-40FF-A425-CFDED86B4EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindPathProc.Lib.Tests", "FindPathProc.Lib.Tests\FindPathProc.Lib.Tests.csproj", "{5618437D-9417-435E-AF55-6B3C33CA4FAE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,9 +23,5 @@ Global
 		{2582A2C3-AE0A-40FF-A425-CFDED86B4EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2582A2C3-AE0A-40FF-A425-CFDED86B4EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2582A2C3-AE0A-40FF-A425-CFDED86B4EEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5618437D-9417-435E-AF55-6B3C33CA4FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5618437D-9417-435E-AF55-6B3C33CA4FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5618437D-9417-435E-AF55-6B3C33CA4FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5618437D-9417-435E-AF55-6B3C33CA4FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

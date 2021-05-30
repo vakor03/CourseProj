@@ -2,12 +2,29 @@
 
 namespace FindPathProc.Lib
 {
+    /// <summary>
+    /// Represents implementation of basic path finding algorithms in graph
+    /// </summary>
     public class Algo
-    {
+    {   /// <summary>
+        /// Initial graph
+        /// </summary>
         private readonly CustomGraph _graph;
+        /// <summary>
+        /// Id of start vertex
+        /// </summary>
         private readonly int _startId;
+        /// <summary>
+        /// Id of destination vertex
+        /// </summary>
         private readonly int _destId;
-
+        
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="graph">Initial CustomGraph</param>
+        /// <param name="startId">Id of start vertex in path</param>
+        /// <param name="destId">Id of destination vertex in path</param>
         public Algo(CustomGraph graph, int startId, int destId)
         {
             _graph = graph;
@@ -15,6 +32,12 @@ namespace FindPathProc.Lib
             _destId = destId;
         }
 
+        /// <summary>
+        /// Finds the shortest path using Dijkstra algorithm
+        /// </summary>
+        /// <param name="path">represents newly path of algorithm from startId to finishId</param>
+        /// <param name="iterations">represents number of iterations of algorithm</param>
+        /// <returns>length of the shortest path</returns>
         public double Dijkstra(out List<int> path, out long iterations)
         {
             iterations = 0;
@@ -74,7 +97,13 @@ namespace FindPathProc.Lib
             return costSoFar[_destId];
         }
 
-
+        /// <summary>
+        /// Finds the shortest path using Bellman-Ford algorithm
+        /// </summary>
+        /// <param name="path">represents newly path of algorithm from startId to finishId</param>
+        /// <param name="negativeLoop">represents existence of negative loops in graph</param>
+        /// <param name="iterations">represents number of iterations of algorithm</param>
+        /// <returns>length of the shortest path</returns>
         public double BellmanFord(out List<int> path, ref bool negativeLoop, out long iterations)
         {
             path = new List<int>();
@@ -133,6 +162,12 @@ namespace FindPathProc.Lib
             return costSoFar[_destId];
         }
 
+        /// <summary>
+        /// Finds the shortest path using A* algorithm
+        /// </summary>
+        /// <param name="path">represents newly path of algorithm from startId to finishId</param>
+        /// <param name="iterations">represents number of iterations of algorithm</param>
+        /// <returns>length of the shortest path</returns>
         public double AStar(out List<int> path, out long iterations)
         {
             path = new List<int>();

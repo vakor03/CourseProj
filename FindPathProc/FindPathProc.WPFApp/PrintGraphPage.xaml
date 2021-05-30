@@ -17,25 +17,25 @@
                     <Grid Margin="0,0,0,20" Background="#FFFFDD" HorizontalAlignment="Left" Width="696" >
                         <TextBlock Text="Dijkstra" FontSize="25" FontWeight="Bold" Margin="0,0,451,90" Padding="5"/>
                         <TextBlock Text="Distance:" FontSize="20" FontWeight="Bold" Margin="173,11,342,80"/>
-                        <TextBlock Text="Time:" FontSize="20" FontWeight="Bold" Margin="382,12,172,80"/>
+                        <TextBlock Text="Efficiency:" FontSize="20" FontWeight="Bold" Margin="382,12,172,80"/>
                         <TextBlock Text="" Name="DijkstraDist" FontSize="20"  Margin="285,11,242,80"/>
-                        <TextBlock Text="" Name="DijkstraTime" FontSize="20"  Margin="455,12,63,80"/>
+                        <TextBlock Text="" Name="DijkstraTime" FontSize="20"  Margin="480,12,63,80"/>
                         <wpfgraphcontrol:AutomaticGraphLayoutControl x:Name="DijkstraGraphControl" Margin="10,50,10,10" Height="80" />
                     </Grid>
                     <Grid Margin="0,0,0,20" Background="#FFFFDD" HorizontalAlignment="Left" Width="696" >
                         <TextBlock Text="Bellman-Ford" FontSize="25" FontWeight="Bold" Margin="0,0,451,90" Padding="5"/>
                         <TextBlock Text="Distance:" FontSize="20" FontWeight="Bold" Margin="173,11,342,80"/>
-                        <TextBlock Text="Time:" FontSize="20" FontWeight="Bold" Margin="382,12,172,80"/>
+                        <TextBlock Text="Efficiency:" FontSize="20" FontWeight="Bold" Margin="382,12,172,80"/>
                         <TextBlock Text="" Name="BellmanDist" FontSize="20"  Margin="285,11,242,80"/>
-                        <TextBlock Text="" Name="BellmanTime" FontSize="20"  Margin="455,12,63,80"/>
+                        <TextBlock Text="" Name="BellmanTime" FontSize="20"  Margin="480,12,63,80"/>
                         <wpfgraphcontrol:AutomaticGraphLayoutControl x:Name="BellmanGraphControl" Margin="10,50,10,10" Height="80" />
                     </Grid>
                     <Grid Margin="0,0,0,20" Background="#FFFFDD" HorizontalAlignment="Left" Width="696" >
                         <TextBlock Text="A*" FontSize="25" FontWeight="Bold" Margin="0,0,451,90" Padding="5"/>
                         <TextBlock Text="Distance:" FontSize="20" FontWeight="Bold" Margin="173,11,342,80"/>
-                        <TextBlock Text="Time:" FontSize="20" FontWeight="Bold" Margin="382,12,172,80"/>
+                        <TextBlock Text="Efficiency:" FontSize="20" FontWeight="Bold" Margin="382,12,172,80"/>
                         <TextBlock Text="" Name="AStarDist" FontSize="20"  Margin="285,11,242,80"/>
-                        <TextBlock Text="" Name="AStarTime" FontSize="20"  Margin="455,12,63,80"/>
+                        <TextBlock Text="" Name="AStarTime" FontSize="20"  Margin="480,12,63,80"/>
                         <wpfgraphcontrol:AutomaticGraphLayoutControl x:Name="AStarGraphControl" Margin="10,50,10,10" Height="80" />
                     </Grid>
                     <TextBlock TextWrapping="Wrap" Text="Start ID: " Height="25" Name="StartLabel" Margin="0,0,501,0" FontSize="20" FontWeight="Bold" FontStyle="Italic"/>
@@ -43,7 +43,11 @@
 
                 </StackPanel>
                 <wpfgraphcontrol:AutomaticGraphLayoutControl x:Name="MainGraphControl" Margin="706,0,0,10"  />
-                <Button Click="WriteToFile_Click" Content="Write to file" HorizontalAlignment="Left" Margin="96,588,0,0" VerticalAlignment="Top" Width="141" Height="32" FontSize="15" FontStyle="Italic"/>
+                <Button Click="WriteToFile_Click" Content="Write to file" HorizontalAlignment="Left" Margin="96,590,0,0" VerticalAlignment="Top" Width="141" Height="32" FontSize="15" FontStyle="Italic"/>
+                <Grid Height="30" Margin="250 585 0 0 " >
+                <TextBlock FontStyle="Italic" Width="100" HorizontalAlignment="Left" Text="Path to dir:" FontSize="20"/>
+                <TextBox FontSize="20" Name="PathToDir" Width="350" Margin="100 0 0 0" HorizontalAlignment="Left"/>
+                </Grid>
             </Grid>
         </Border>
     </Grid>
