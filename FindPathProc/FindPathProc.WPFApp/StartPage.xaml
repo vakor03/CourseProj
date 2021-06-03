@@ -26,7 +26,7 @@
                 <TextBox TextChanged="FinishId_Changed" Name="Finish" HorizontalAlignment="Left" Height="30" Margin="772,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="20" Background="LightGray"/>
                 <TextBlock HorizontalAlignment="Left" Margin="750,260,0,0" TextWrapping="Wrap" Text="Distance matrix" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" FontStyle="Italic"/>
                 <TextBlock HorizontalAlignment="Left" Margin="227,260,0,0" TextWrapping="Wrap" Text="Weight matrix" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" FontStyle="Italic"/>
-                <Button Content="Generate weight matrix"  Margin="207,585,802,0" VerticalAlignment="Top" Height="33" Click="GenerateWeight_Click" FontSize="15" FontStyle="Italic" Background="#FFB9B9B8"/>
+                <Button Content="Generate weight matrix"  Margin="207,585,802,0" VerticalAlignment="Top" Height="33" Click="GenerateWight_Click" FontSize="15" FontStyle="Italic" Background="#FFB9B9B8"/>
                 <Button Content="Create" HorizontalAlignment="Left" Margin="1053,575,0,0" VerticalAlignment="Top" Width="127" Height="45" Click="NextPage_Click" FontSize="15" FontStyle="Italic" Background="#FFB9B9B8"/>
                 <Button Content="Generate distance matrix"  Margin="707,585,298,0" VerticalAlignment="Top" Height="33" Click="GenerateDist_Click" FontSize="15" FontStyle="Italic" Background="#FFB9B9B8"/>
             </Grid>

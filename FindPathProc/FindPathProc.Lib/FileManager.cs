@@ -59,9 +59,9 @@ namespace FindPathProc.Lib
         {
             if (!Directory.Exists(_pathToDir))
             {
-                if (!Directory.Exists("Results"))
+                if (!Directory.Exists("../Results"))
                 {
-                    Directory.CreateDirectory("Results");
+                    Directory.CreateDirectory("../Results/");
                 }
 
                 _pathToDir = "../Results/";

@@ -176,8 +176,7 @@ namespace FindPathProc.WPFApp
         /// </summary>
         private void Count_Changed(object sender, TextChangedEventArgs e)
         {
-            try
-            {
+            
                 matrixSm.Children.RemoveRange(0, matrixSm.Children.Count);
                 matrixDist.Children.RemoveRange(0, matrixDist.Children.Count);
 
@@ -186,9 +185,9 @@ namespace FindPathProc.WPFApp
                 matrixDist.RowDefinitions.Clear();
                 matrixDist.ColumnDefinitions.Clear();
 
-                int vertCount = Convert.ToInt32(Count.Text);
-
-                if (vertCount <= maxCount)
+                int.TryParse(Count.Text, out int vertCount);
+                
+                if (vertCount > 1 && vertCount <= maxCount)
                 {
                     InitMatrix(vertCount);
                     for (int i = 0; i < vertCount; i++)
@@ -209,11 +208,13 @@ namespace FindPathProc.WPFApp
                         }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+                else
+                {
+                    _vertsCount = 0;
+                    // _distMatrix = new int[0, 0];
+                    // _weightMatrix = new int[0, 0];
+                }
+            
         }
 
         /// <summary>
@@ -265,7 +266,12 @@ namespace FindPathProc.WPFApp
         /// </summary>
         private void StartId_Changed(object sender, TextChangedEventArgs e)
         {
-            int.TryParse(((TextBox) e.Source).Text, out _startId);
+            if (!int.TryParse(((TextBox) e.Source).Text, out _startId))
+            {
+                _startId = -1;
+            }
+
+            
         }
 
         /// <summary>
@@ -279,7 +285,7 @@ namespace FindPathProc.WPFApp
         /// <summary>
         /// Generates weight matrix 
         /// </summary>
-        private void GenerateWeight_Click(object sender, RoutedEventArgs e)
+        private void GenerateWight_Click(object sender, RoutedEventArgs e)
         {
             Random random = new Random();
             int maxRInt = 10;
