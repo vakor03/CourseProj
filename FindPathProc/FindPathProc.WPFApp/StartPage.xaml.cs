@@ -279,7 +279,10 @@ namespace FindPathProc.WPFApp
         /// </summary>
         private void FinishId_Changed(object sender, TextChangedEventArgs e)
         {
-            int.TryParse(((TextBox) e.Source).Text, out _destId);
+            if (!int.TryParse(((TextBox) e.Source).Text, out _destId))
+            {
+                _destId = -1;
+            }
         }
 
         /// <summary>
